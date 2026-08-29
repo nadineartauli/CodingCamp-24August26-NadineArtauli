@@ -3,7 +3,7 @@
 A clean, minimal productivity dashboard to help you organize your day in one tab.
 Built with HTML, CSS, and vanilla JavaScript. No frameworks, no build steps, no server required.
 
-**[🔗 Live Demo](https://nadineartauli.github.io/coding-camp/)**
+**[🔗 Live Demo](https://nadineartauli.github.io/CodingCamp-24August26-NadineArtauli/)**
 
 ---
 
