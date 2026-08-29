@@ -53,9 +53,7 @@ Built with pure HTML, CSS, and vanilla JavaScript. No frameworks, no build steps
 
 | Light Mode | Dark Mode |
 |---|---|
-| ![Light mode preview](https://placehold.co/480x300?text=Light+Mode) | ![Dark mode preview](https://placehold.co/480x300?text=Dark+Mode) |
-
-> Replace the placeholder images above with real screenshots once deployed.
+| ![Light mode preview] <img width="1917" height="938" alt="image" src="https://github.com/user-attachments/assets/947ce383-f7f2-4012-a2ce-98fcf036cd56" /> | ![Dark mode preview] <img width="1918" height="933" alt="image" src="https://github.com/user-attachments/assets/c6e7e03a-6d17-4969-8081-e5368c83ead9" /> |
 
 ---
 
