@@ -1,9 +1,9 @@
-# 📅 Day Dashboard
+# 📅 Daily To-Do List Dashboard
 
-A clean, minimal productivity dashboard to help you organize your day — all in one tab.
-Built with pure HTML, CSS, and vanilla JavaScript. No frameworks, no build steps, no server required.
+A clean, minimal productivity dashboard to help you organize your day in one tab.
+Built with HTML, CSS, and vanilla JavaScript. No frameworks, no build steps, no server required.
 
-**[🔗 Live Demo](https://nadineartauli.github.io/coding-camp/)**
+**[🔗 Live Demo](https://nadineartauli.github.io/CodingCamp-24August26-NadineArtauli/)**
 
 ---
 
@@ -45,7 +45,7 @@ Built with pure HTML, CSS, and vanilla JavaScript. No frameworks, no build steps
 ### 🌗 Light / Dark Mode
 - Toggle between light and dark themes with one click
 - Smooth 180ms transition between themes
-- Preference saved — remembered across sessions
+- Preference saved, remembered across sessions
 
 ---
 
@@ -53,9 +53,7 @@ Built with pure HTML, CSS, and vanilla JavaScript. No frameworks, no build steps
 
 | Light Mode | Dark Mode |
 |---|---|
-| ![Light mode preview](https://placehold.co/480x300?text=Light+Mode) | ![Dark mode preview](https://placehold.co/480x300?text=Dark+Mode) |
-
-> Replace the placeholder images above with real screenshots once deployed.
+| ![Light mode preview] <img width="1917" height="938" alt="image" src="https://github.com/user-attachments/assets/947ce383-f7f2-4012-a2ce-98fcf036cd56" /> | ![Dark mode preview] <img width="1918" height="933" alt="image" src="https://github.com/user-attachments/assets/c6e7e03a-6d17-4969-8081-e5368c83ead9" /> |
 
 ---
 
@@ -68,7 +66,7 @@ No installation or build step needed.
 ```bash
 git clone https://github.com/nadineartauli/coding-camp.git
 ```
-2. Open `index.html` in any modern browser — that's it.
+2. Open `index.html` in any modern browser.
 
 ### Deploy to GitHub Pages
 1. Go to your repo → **Settings → Pages**
@@ -106,7 +104,7 @@ coding-camp/
 - All interactive controls have `aria-label` attributes
 - Error messages use `role="alert"` and `aria-live="polite"` for screen readers
 - Full keyboard navigation — every control is reachable by Tab
-- Respects `prefers-reduced-motion` — animations disabled when the user opts out
+- Respects `prefers-reduced-motion`. Animations disabled when the user opts out
 - Supports Windows High Contrast mode via `forced-colors` media query
 - Color contrast meets WCAG AA for both light and dark themes
 
