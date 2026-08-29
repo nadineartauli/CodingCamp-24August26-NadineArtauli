@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Loading indicator -->
+  <div id="loading-indicator" aria-live="polite" aria-label="Loading dashboard">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Global storage warning banner -->
+  <div id="storage-warning-banner" role="status" aria-live="polite" hidden>
+    <span id="storage-warning-text"></span>
+    <button id="storage-warning-dismiss" aria-label="Dismiss storage warning">✕</button>
+  </div>
+
+  <!-- Header: clock + greeting + theme toggle -->
+  <header id="dashboard-header">
+    <div class="header-clock">
+      <div id="clock-time" aria-live="off" aria-label="Current time">00:00:00</div>
+      <div id="clock-date" aria-label="Current date"></div>
+    </div>
+    <div id="greeting" aria-live="polite" aria-label="Greeting"></div>
+    <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle light/dark mode">
+      <span id="theme-icon">🌙</span>
+      <span id="theme-label">Dark Mode</span>
+    </button>
+  </header>
+
+  <!-- Main dashboard grid -->
+  <main id="dashboard-main">
+
+    <!-- Focus Timer -->
+    <section id="timer-section" class="card" aria-label="Focus Timer">
+      <h2 class="card-title">
+        <span class="card-icon">⏱</span> Focus Timer
+      </h2>
+
+      <div id="timer-display" aria-live="polite" aria-label="Timer display">25:00</div>
+
+      <div id="timer-complete-indicator" class="timer-complete" hidden aria-live="assertive">
+        <span>🎉 Session complete! Great work!</span>
+      </div>
+
+      <div id="timer-error" class="error-msg" role="alert" aria-live="polite"></div>
+
+      <div class="timer-duration-row">
+        <label for="timer-duration-input" class="input-label">Duration (min)</label>
+        <input
+          id="timer-duration-input"
+          type="number"
+          min="1"
+          max="120"
+          value="25"
+          aria-label="Session duration in minutes"
+          aria-describedby="timer-error"
+        />
+      </div>
+
+      <div class="timer-buttons" role="group" aria-label="Timer controls">
+        <button id="timer-start" class="btn btn-primary" aria-label="Start timer">▶ Start</button>
+        <button id="timer-stop"  class="btn btn-secondary" aria-label="Stop timer">⏸ Stop</button>
+        <button id="timer-reset" class="btn btn-ghost" aria-label="Reset timer">↺ Reset</button>
+      </div>
+    </section>
+
+    <!-- To-Do List -->
+    <section id="todo-section" class="card" aria-label="To-Do List">
+      <h2 class="card-title">
+        <span class="card-icon">✅</span> To-Do List
+      </h2>
+
+      <div id="todo-add-error" class="error-msg" role="alert" aria-live="polite"></div>
+
+      <div class="todo-input-row">
+        <input
+          id="todo-input"
+          type="text"
+          maxlength="200"
+          placeholder="Add a new task…"
+          aria-label="New task title"
+          aria-describedby="todo-add-error"
+        />
+        <button id="todo-add" class="btn btn-primary" aria-label="Add task">+ Add</button>
+      </div>
+
+      <div class="todo-controls-row">
+        <label for="todo-sort" class="input-label">Sort by</label>
+        <select id="todo-sort" aria-label="Sort tasks by">
+          <option value="creation">Creation time</option>
+          <option value="status">Completion status</option>
+        </select>
+      </div>
+
+      <ul id="todo-list" aria-label="Task list" aria-live="polite"></ul>
+
+      <div id="todo-storage-error" class="error-msg" role="alert" aria-live="polite"></div>
+    </section>
+
+    <!-- Quick Links -->
+    <section id="links-section" class="card" aria-label="Quick Links">
+      <h2 class="card-title">
+        <span class="card-icon">🔗</span> Quick Links
+      </h2>
+
+      <div id="links-error" class="error-msg" role="alert" aria-live="polite"></div>
+
+      <div class="links-form">
+        <input
+          id="links-label-input"
+          type="text"
+          maxlength="100"
+          placeholder="Label (e.g. GitHub)"
+          aria-label="Link label"
+          aria-describedby="links-error"
+        />
+        <input
+          id="links-url-input"
+          type="url"
+          maxlength="2048"
+          placeholder="https://example.com"
+          aria-label="Link URL"
+          aria-describedby="links-error"
+        />
+        <button id="links-add" class="btn btn-primary" aria-label="Add quick link">+ Add Link</button>
+      </div>
+
+      <div id="links-list" class="links-grid" aria-label="Saved links" role="list"></div>
+
+      <div id="links-storage-error" class="error-msg" role="alert" aria-live="polite"></div>
+    </section>
+
+  </main>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

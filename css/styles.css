@@ -1,0 +1,779 @@
+/* ============================================================
+   Day Dashboard — styles.css
+   Single stylesheet: reset, tokens, layout, components, themes
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CSS Custom Properties — Light theme (default)
+   ------------------------------------------------------------ */
+:root {
+  /* Palette */
+  --color-bg:           #f0f2f5;
+  --color-surface:      #ffffff;
+  --color-surface-alt:  #f7f8fa;
+  --color-border:       #e2e5ea;
+  --color-text:         #1a1d23;
+  --color-text-muted:   #6b7280;
+  --color-accent:       #4f7ef8;
+  --color-accent-hover: #3b6de6;
+  --color-accent-light: #eef2ff;
+  --color-success:      #22c55e;
+  --color-success-bg:   #f0fdf4;
+  --color-danger:       #ef4444;
+  --color-danger-bg:    #fef2f2;
+  --color-warning:      #f59e0b;
+  --color-warning-bg:   #fffbeb;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.05);
+  --shadow-lg:  0 10px 30px rgba(0,0,0,.10), 0 4px 10px rgba(0,0,0,.06);
+
+  /* Radius */
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-sans:  'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono:  'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Transitions */
+  --transition-theme: background-color 180ms ease, color 180ms ease,
+                      border-color 180ms ease, box-shadow 180ms ease;
+  --transition-fast:  all 120ms ease;
+  --transition-med:   all 220ms ease;
+}
+
+/* ------------------------------------------------------------
+   2. Dark Theme Overrides
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  --color-bg:           #0f1117;
+  --color-surface:      #1a1d27;
+  --color-surface-alt:  #22263a;
+  --color-border:       #2e3245;
+  --color-text:         #e8eaf0;
+  --color-text-muted:   #8b90a8;
+  --color-accent:       #6c8ff8;
+  --color-accent-hover: #85a3fc;
+  --color-accent-light: #1e2540;
+  --color-success:      #4ade80;
+  --color-success-bg:   #0f2318;
+  --color-danger:       #f87171;
+  --color-danger-bg:    #2a1010;
+  --color-warning:      #fbbf24;
+  --color-warning-bg:   #2a1f08;
+
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.30);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.40);
+  --shadow-lg:  0 10px 30px rgba(0,0,0,.50);
+}
+
+/* ------------------------------------------------------------
+   3. Reset & Base
+   ------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: var(--transition-theme);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { line-height: 1.3; }
+
+ul { list-style: none; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text);
+  transition: var(--transition-theme);
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(79, 126, 248, .20);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus {
+  box-shadow: 0 0 0 3px rgba(108, 143, 248, .25);
+}
+
+img, svg { display: block; max-width: 100%; }
+
+/* ------------------------------------------------------------
+   4. Loading Indicator
+   ------------------------------------------------------------ */
+#loading-indicator {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  z-index: 9999;
+  transition: opacity 300ms ease;
+}
+
+#loading-indicator.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------------------
+   5. Storage Warning Banner
+   ------------------------------------------------------------ */
+#storage-warning-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-warning-bg);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-warning);
+  font-size: .875rem;
+  font-weight: 500;
+  transition: var(--transition-theme);
+}
+
+#storage-warning-banner[hidden] { display: none; }
+
+#storage-warning-dismiss {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  background: rgba(0,0,0,.08);
+  color: var(--color-text);
+  font-size: .75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+#storage-warning-dismiss:hover { background: rgba(0,0,0,.15); }
+
+/* ------------------------------------------------------------
+   6. Header
+   ------------------------------------------------------------ */
+#dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-8);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-clock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#clock-time {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: .03em;
+  line-height: 1.1;
+}
+
+#clock-date {
+  font-size: clamp(.75rem, 1.5vw, .9rem);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+#greeting {
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+  flex: 1;
+}
+
+/* ------------------------------------------------------------
+   7. Theme Toggle Button
+   ------------------------------------------------------------ */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: var(--transition-med);
+  white-space: nowrap;
+}
+
+#theme-toggle:hover {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+#theme-icon { font-size: 1rem; }
+
+/* ------------------------------------------------------------
+   8. Main Dashboard Grid
+   ------------------------------------------------------------ */
+#dashboard-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: var(--space-6);
+  padding: var(--space-8);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------
+   9. Card (shared panel style)
+   ------------------------------------------------------------ */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: var(--transition-theme);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-icon { font-size: 1.1rem; }
+
+/* ------------------------------------------------------------
+   10. Shared Button Styles
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: .875rem;
+  font-weight: 600;
+  transition: var(--transition-med);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 126, 248, .35);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  background: var(--color-border);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  padding: var(--space-1) var(--space-2);
+  font-size: .75rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-danger:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn-icon {
+  background: transparent;
+  color: var(--color-text-muted);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: .8rem;
+  border: 1px solid transparent;
+}
+
+.btn-icon:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* ------------------------------------------------------------
+   11. Error / Info Messages
+   ------------------------------------------------------------ */
+.error-msg {
+  font-size: .8rem;
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: none;
+  animation: fadeIn 180ms ease;
+}
+
+.error-msg.visible { display: block; }
+
+.input-label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   12. Focus Timer
+   ------------------------------------------------------------ */
+#timer-display {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-accent);
+  letter-spacing: .04em;
+  line-height: 1;
+  padding: var(--space-4) 0;
+  transition: color 300ms ease;
+}
+
+#timer-display.running { color: var(--color-success); }
+#timer-display.complete { color: var(--color-warning); }
+
+.timer-complete {
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-success);
+  font-size: .9rem;
+  animation: bounceIn 400ms cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.timer-complete[hidden] { display: none; }
+
+@keyframes bounceIn {
+  from { opacity: 0; transform: scale(.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.timer-duration-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.timer-duration-row input {
+  width: 80px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.timer-buttons {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.timer-buttons .btn { flex: 1; min-width: 80px; }
+
+/* Progress ring (cosmetic, optional) */
+#timer-section { position: relative; }
+
+/* ------------------------------------------------------------
+   13. To-Do List
+   ------------------------------------------------------------ */
+.todo-input-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.todo-input-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-controls-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.todo-controls-row select {
+  flex: 1;
+}
+
+#todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+/* Scrollbar styling */
+#todo-list::-webkit-scrollbar { width: 5px; }
+#todo-list::-webkit-scrollbar-track { background: transparent; }
+#todo-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition-med);
+  animation: slideIn 180ms ease;
+}
+
+.todo-item:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.todo-item.done {
+  opacity: .6;
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Checkbox toggle */
+.todo-toggle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  transition: var(--transition-fast);
+  color: transparent;
+}
+
+.todo-toggle:hover {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.todo-item.done .todo-toggle {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+
+/* Task title */
+.todo-title {
+  flex: 1;
+  font-size: .9rem;
+  font-weight: 500;
+  word-break: break-word;
+  transition: var(--transition-fast);
+}
+
+.todo-item.done .todo-title {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+/* Inline edit input */
+.todo-edit-input {
+  flex: 1;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(79, 126, 248, .15);
+}
+
+.todo-actions {
+  display: flex;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.todo-inline-error {
+  font-size: .75rem;
+  color: var(--color-danger);
+  padding: 0 var(--space-3);
+  display: none;
+}
+
+.todo-inline-error.visible { display: block; }
+
+/* Empty state */
+.todo-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: .875rem;
+  padding: var(--space-8) 0;
+}
+
+.todo-empty-icon { font-size: 2.5rem; margin-bottom: var(--space-2); }
+
+/* ------------------------------------------------------------
+   14. Quick Links
+   ------------------------------------------------------------ */
+.links-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.links-form input { width: 100%; }
+
+.links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--color-accent-light);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  animation: fadeIn 180ms ease;
+  transition: var(--transition-med);
+}
+
+.link-item:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.link-btn {
+  padding: var(--space-2) var(--space-4);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: var(--transition-fast);
+  background: transparent;
+}
+
+.link-btn:hover { color: var(--color-accent-hover); }
+
+.link-delete {
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-muted);
+  font-size: .75rem;
+  background: transparent;
+  border-left: 1px solid var(--color-accent);
+  transition: var(--transition-fast);
+  height: 100%;
+}
+
+.link-delete:hover {
+  background: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger);
+}
+
+.links-empty {
+  color: var(--color-text-muted);
+  font-size: .875rem;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+/* ------------------------------------------------------------
+   15. Responsive Adjustments
+   ------------------------------------------------------------ */
+@media (max-width: 600px) {
+  #dashboard-header {
+    padding: var(--space-4);
+  }
+
+  #greeting {
+    order: 3;
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  #dashboard-main {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .timer-buttons .btn {
+    font-size: .8rem;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  #theme-label { display: none; }
+}
+
+@media (min-width: 1200px) {
+  #dashboard-main {
+    grid-template-columns: 1fr 1.4fr 1fr;
+  }
+}
+
+/* ------------------------------------------------------------
+   16. Focus & Accessibility
+   ------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Skip past focus ring for mouse clicks */
+:focus:not(:focus-visible) { outline: none; }
+
+/* High-contrast-friendly */
+@media (forced-colors: active) {
+  .btn-primary { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  .todo-toggle { border-color: ButtonText; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}
